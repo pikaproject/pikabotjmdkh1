@@ -117,8 +117,8 @@ def get_progress_bar_string(pct):
     pct = float(pct.strip('%'))
     p = min(max(pct, 0), 100)
     cFull = int(p // 8)
-    p_str = '■' * cFull
-    p_str += '□' * (12 - cFull)
+    p_str = '●' * cFull
+    p_str += '○' * (12 - cFull)
     return f"[{p_str}]"
 
 
@@ -135,7 +135,7 @@ def get_readable_message():
         msg += f"<b>_____《🐱 Pik4Bot 🐱》_____</b>\n\n"
         msg += f"<b>☞ {download.status()}</b>: <code>{escape(f'{download.name()}')}</code>"
         if download.status() not in [MirrorStatus.STATUS_SPLITTING, MirrorStatus.STATUS_SEEDING]:
-            msg += f"\n<b>☞</b> {get_progress_bar_string(download.progress())} {download.progress()}"
+            msg += f"\n<b>☞ <a href='https://t.me/pik4bot'>{get_progress_bar_string(download.progress())}</a></b> {download.progress()}"
             msg += f"\n<b>☞ Processed</b>: {download.processed_bytes()} of {download.size()}"
             msg += f"\n<b>☞ Speed</b>: {download.speed()} | <b>ETA</b>: {download.eta()}"
             if hasattr(download, 'seeders_num'):
