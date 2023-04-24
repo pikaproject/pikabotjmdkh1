@@ -135,7 +135,7 @@ def get_readable_message():
         msg += f"<b>_____《🐱 <a href='https://t.me/pik4bot'>𝐏𝐢𝐤𝟒𝐛𝐨𝐭</a> 🐱》_____</b>\n\n"
         msg += f"<b>☞ {download.status()}</b>: <code>{escape(f'{download.name()}')}</code>"
         if download.status() not in [MirrorStatus.STATUS_SPLITTING, MirrorStatus.STATUS_SEEDING]:
-            msg += f"\n<b>☞ <a href='https://t.me/pik4bot'>{get_progress_bar_string(download.progress())}</a></b> {download.progress()}"
+            msg += f"\n<b>☞</b> <a href='https://t.me/pik4bot'>{get_progress_bar_string(download.progress())}</a> {download.progress()}"
             msg += f"\n<b>☞ Processed</b>: {download.processed_bytes()} of {download.size()}"
             msg += f"\n<b>☞ Speed</b>: {download.speed()} | <b>ETA</b>: {download.eta()}"
             if hasattr(download, 'seeders_num'):
