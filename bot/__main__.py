@@ -73,8 +73,8 @@ async def start(client, message):
             'Now I will send your files or links here.\n'
     else:
         start_string = 'Hi, Pik4bot is here 🐱\n' \
-                    'This bot can Mirror all your links To Google Drive!\n\n' \
-                    'Pm the owner <b><a href="https://t.me/XRofikX">"𝑷𝒊𝒌𝒂𝒄𝒉𝒖"</a></b> to start use this bot'
+                    'This bot can Mirror all your links To Google Drive or leech to Telegram !\n\n' \
+                    'Join <b><a href="https://t.me/+67WpWvq1-RBhYjNl">"<b>This Group</b>"</a></b> to start use this bot'
     await sendMessage(message, start_string)
 
 
