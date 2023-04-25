@@ -373,7 +373,7 @@ class MirrorLeechListener:
             if mime_type != 0:
                 msg += f'\n<b>☞ Corrupted Files</b>: {mime_type}'
             #msg += f"\n<b>Upload</b>: {self.extra_details['mode']}"
-            msg += f'\n\n<b>☞ Leech_By</b>: {self.tag}'
+            msg += f"\n\n<b>☞ Leech_By</b>: {self.tag}\n\n"
             if not files:
                 await sendMessage(self.message, msg)
                 if self.logMessage:
