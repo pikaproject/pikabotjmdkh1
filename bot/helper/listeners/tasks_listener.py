@@ -367,7 +367,7 @@ class MirrorLeechListener:
             await DbManger().rm_complete_task(self.message.link)
         LOGGER.info(f'Task Done: {name}')
         if self.isLeech:
-            msg = f'<b>______《🐱 <a href="https://t.me/pik4bot">𝐏𝐢𝐤𝟒𝐛𝐨𝐭</a> 🐱》_____</b>\n\n<b>☞ Name</b>: <code>{escape(name)}</code>\n<b>☞ Size</b>: {get_readable_file_size(size)}'
+            msg = f'<b>─────《🐱 <a href="https://t.me/pik4bot">𝐏𝐢𝐤𝟒𝐛𝐨𝐭</a> 🐱》─────</b>\n<b>☞ Name</b>: <code>{escape(name)}</code>\n<b>☞ Size</b>: {get_readable_file_size(size)}'
             msg += f'\n<b>☞ Total Files</b>: {folders}'
             msg += f"\n<b>☞ Elapsed</b>: {get_readable_time(time() - self.extra_details['startTime'])}"
             if mime_type != 0:
@@ -412,9 +412,9 @@ class MirrorLeechListener:
                 return
         else:
             if SHORTENERES:
-                msg = f'<b>______《🐱 <a href="https://t.me/pik4bot">𝐏𝐢𝐤𝟒𝐛𝐨𝐭</a> 🐱》______</b>\n\n<b>☞ Name</b>: <code>.{escape(name).replace(" ", "-").replace(".", ",")}</code>\n<b>☞ Size</b>: {get_readable_file_size(size)}'
+                msg = f'<b>─────《🐱 <a href="https://t.me/pik4bot">𝐏𝐢𝐤𝟒𝐛𝐨𝐭</a> 🐱》─────</b>\n<b>☞ Name</b>: <code>.{escape(name).replace(" ", "-").replace(".", ",")}</code>\n<b>☞ Size</b>: {get_readable_file_size(size)}'
             else:
-                msg = f'<b>______《🐱 <a href="https://t.me/pik4bot">𝐏𝐢𝐤𝟒𝐛𝐨𝐭</a> 🐱》______</b>\n\n<b>☞ Name</b>: <code>{escape(name)}</code>\n<b>☞ Size</b>: {get_readable_file_size(size)}'
+                msg = f'<b>─────《🐱 <a href="https://t.me/pik4bot">𝐏𝐢𝐤𝟒𝐛𝐨𝐭</a> 🐱》─────</b>\n<b>☞ Name</b>: <code>{escape(name)}</code>\n<b>☞ Size</b>: {get_readable_file_size(size)}'
             msg += f'\n<b>☞ Type: </b>{mime_type}'
             if mime_type == "Folder":
                 msg += f'\n<b>☞ SubFolders: </b>{folders}'
