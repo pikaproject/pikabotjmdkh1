@@ -123,7 +123,7 @@ def get_progress_bar_string(pct):
 
 
 def get_readable_message():
-    msg = "<b>_____《🐱 <a href='https://t.me/pik4bot'>𝐏𝐢𝐤𝟒𝐛𝐨𝐭</a> 🐱》_____</b>\n\n"
+    msg = ""
     button = None
     STATUS_LIMIT = config_dict['STATUS_LIMIT']
     tasks = len(download_dict)
@@ -132,7 +132,7 @@ def get_readable_message():
         globals()['STATUS_START'] = STATUS_LIMIT * (PAGES - 1)
         globals()['PAGE_NO'] = PAGES
     for download in list(download_dict.values())[STATUS_START:STATUS_LIMIT+STATUS_START]:
-        #msg += f"<b>_____《🐱 <a href='https://t.me/pik4bot'>𝐏𝐢𝐤𝟒𝐛𝐨𝐭</a> 🐱》_____</b>\n\n"
+        msg += f"<b>_____《🐱 <a href='https://t.me/pik4bot'>𝐏𝐢𝐤𝟒𝐛𝐨𝐭</a> 🐱》_____</b>\n\n"
         msg += f"<b>☞ {download.status()}</b>: <code>{escape(f'{download.name()}')}</code>"
         if download.status() not in [MirrorStatus.STATUS_SPLITTING, MirrorStatus.STATUS_SEEDING]:
             msg += f"\n<b>☞</b> <a href='https://t.me/pik4bot'>{get_progress_bar_string(download.progress())}</a> {download.progress()}"
