@@ -236,7 +236,7 @@ async def forcesub(message, tag):
         btn = ButtonMaker()
         for key, value in join_button.items():
             btn.ubutton(key, value)
-        return await sendMessage(message, f'💡 {tag},\nYou have to join our channel!\n🔻 Join And Try Again!', btn.build_menu(2))
+        return await sendMessage(message, f'☞ Hi {tag},You have to join our channel to use this bot !\n\n☞ <b>Please Join And Try Again!</b>', btn.build_menu(2))
 
 
 async def message_filter(message, tag):
