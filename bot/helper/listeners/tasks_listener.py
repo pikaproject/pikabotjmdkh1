@@ -421,12 +421,8 @@ class MirrorLeechListener:
             msg += f'\n<b>☞ Elapsed</b>: {get_readable_time(time() - self.extra_details["startTime"])}'
             msg += f'\n\n<b>☞ Task_By</b>: {self.tag}'
             if link or rclonePath and config_dict['RCLONE_SERVE_URL']:
-                if drive_id and config_dict['GDRIVE_ID'] != drive_id:
-                    msg += f"\n\n<b>☞ Folder id</b>: <code>{drive_id}</code>"
                 buttons = ButtonMaker()
                 if link:
-                    if not config_dict['DISABLE_DRIVE_LINK']:
-                        link = await sync_to_async(short_url, link)
                         buttons.ubutton("☁️ Google Drive", link)
                 else:
                     msg += f'\n\n☞ Path: <code>{rclonePath}</code>'
@@ -462,8 +458,6 @@ class MirrorLeechListener:
                         buttons.ibutton("💾 Save This Message", 'save', 'footer')
                     await sendMessage(self.message, msg, buttons.build_menu(2))
                 if self.logMessage:
-                    if link and config_dict['DISABLE_DRIVE_LINK']:
-                        link = await sync_to_async(short_url, link)
                         buttons.ubutton("☁️ Google Drive", link, 'header')
                     await sendMessage(self.logMessage, msg, buttons.build_menu(2))
             else:
