@@ -611,12 +611,11 @@ class GoogleDriveHelper:
                                                 for n in self.__get_recursive_list(file, dir_id))
                         else:
                             url_path = rquote(f'{file.get("name")}')
-                        url = short_url(f'{index_url}/{url_path}')
-                        msg += f' <b>| <a href={url}>Index Link</a></b>'
-                        if config_dict['VIEW_LINK']:
+                        url = f'{index_url}/{url_path}'
+                        msg += f'<b><a href="{url}">Index Link</a></b>'
+                        if mime_type.startswith(('image', 'video', 'audio')):
                             urlv = f'{index_url}/{url_path}?a=view'
-                            urlv = short_url(urlv)
-                            msg += f' <b>| <a href={urlv}>View Link</a></b>'
+                            msg += f' | <b><a href="{urlv}">View Link</a></b>'
                 msg += '<br><br>'
                 contents_no += 1
                 if len(msg.encode('utf-8')) > 39000:
