@@ -413,10 +413,6 @@ class MirrorLeechListener:
                 await start_from_queued()
                 return
         else:
-            if SHORTENERES:
-                msg = f'<b>_____《🐱 <a href="https://t.me/pik4bot">𝐏𝐢𝐤𝟒𝐛𝐨𝐭</a> 🐱》_____</b>\n\n<b>☞ Name</b>: <code>.{escape(name).replace(" ", "-").replace(".", ",")}</code>\n<b>☞ Size</b>: {get_readable_file_size(size)}'
-            else:
-                 msg = f'<b>_____《🐱 <a href="https://t.me/pik4bot">𝐏𝐢𝐤𝟒𝐛𝐨𝐭</a> 🐱》_____</b>\n\n<b>☞ Name</b>: <code>{escape(name)}</code>\n<b>☞ Size</b>: {get_readable_file_size(size)}'
             msg += f'\n<b>☞ Type: </b>{mime_type}'
             if mime_type == "Folder":
                 msg += f'\n<b>☞ SubFolders: </b>{folders}'
