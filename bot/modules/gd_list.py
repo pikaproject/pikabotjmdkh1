@@ -5,7 +5,8 @@ from pyrogram.filters import command, regex
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 
 from bot import LOGGER, bot
-from bot.helper.ext_utils.bot_utils import (get_readable_time, get_telegraph_list, new_task,
+from bot.helper.ext_utils.bot_utils import (checking_access, get_readable_time,
+                                            get_telegraph_list, new_task,
                                             sync_to_async)
 from bot.helper.mirror_utils.upload_utils.gdriveTools import GoogleDriveHelper
 from bot.helper.telegram_helper.bot_commands import BotCommands
@@ -13,7 +14,8 @@ from bot.helper.telegram_helper.button_build import ButtonMaker
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import (anno_checker,
                                                       editMessage, isAdmin,
-                                                      request_limiter, sendMessage)
+                                                      request_limiter,
+                                                      sendMessage)
 
 
 async def list_buttons(user_id, isRecursive=True):
@@ -47,7 +49,7 @@ async def _list_drive(key, message, item_type, isRecursive):
 
 
 @new_task
-async def select_type(client, query):
+async def select_type(_, query):
     user_id = query.from_user.id
     message = query.message
     key = message.reply_to_message.text.split(maxsplit=1)[1].strip()
@@ -69,7 +71,7 @@ async def select_type(client, query):
     await _list_drive(key, message, item_type, isRecursive)
 
 
-async def drive_list(client, message):
+async def drive_list(_, message):
     if len(message.text.split()) == 1:
         return await sendMessage(message, 'Send a search key along with command')
     if not message.from_user:
@@ -77,8 +79,14 @@ async def drive_list(client, message):
     if not message.from_user:
         return
     user_id = message.from_user.id
-    if not await isAdmin(message, user_id) and await request_limiter(message):
-        return
+    if not await isAdmin(message, user_id):
+        if await request_limiter(message):
+            return
+        if message.chat.type != message.chat.type.PRIVATE:
+            msg, btn = checking_access(user_id)
+            if msg is not None:
+                await sendMessage(message, msg, btn.build_menu(1))
+                return
     buttons = await list_buttons(user_id)
     await sendMessage(message, 'Choose list options:', buttons)
 

@@ -12,9 +12,10 @@ from psutil import (boot_time, cpu_count, cpu_percent, disk_usage,
                     net_io_counters, swap_memory, virtual_memory)
 from pyrogram.filters import command
 from pyrogram.handlers import MessageHandler
-
+from uuid import uuid4
 from bot import (DATABASE_URL, INCOMPLETE_TASK_NOTIFIER, LOGGER,
                  STOP_DUPLICATE_TASKS, Interval, QbInterval, bot, botStartTime,
+                 user_data,
                  config_dict, scheduler)
 from bot.helper.listeners.aria2_listener import start_aria2_listener
 
@@ -36,7 +37,7 @@ from .modules import (anonymous, authorize, bot_settings, cancel_mirror,
 start_aria2_listener()
 
 
-async def stats(client, message):
+async def stats(_, message):
     total, used, free, disk = disk_usage('/')
     swap = swap_memory()
     memory = virtual_memory()
@@ -67,10 +68,22 @@ async def stats(client, message):
     await sendMessage(message, stats)
 
 
-async def start(client, message):
-    if config_dict['DM_MODE']:
+async def start(_, message):
+    if len(message.command) > 1:
+        userid = message.from_user.id
+        input_token = message.command[1]
+        if userid not in user_data:
+            return await sendMessage(message, 'Who are you?')
+        data = user_data[userid]
+        if 'token' not in data or data['token'] != input_token:
+            return await sendMessage(message, 'This is a token already expired')
+        data['token'] = str(uuid4())
+        data['time'] = time()
+        user_data[userid].update(data)
+        return await sendMessage(message, 'Token refreshed successfully!')
+    elif config_dict['DM_MODE']:
         start_string = 'Bot Started.\n' \
-            'Now I will send your files or links here.\n'
+            'Now I will send your files and links here.\n'
     else:
         start_string = 'Hi, Pik4bot is here 🐱\n' \
                     'This bot can Mirror all your links To Google Drive or leech to Telegram !\n\n' \
@@ -78,7 +91,7 @@ async def start(client, message):
     await sendMessage(message, start_string)
 
 
-async def restart(client, message):
+async def restart(_, message):
     restart_message = await sendMessage(message, "Restarting...")
     if scheduler.running:
         scheduler.shutdown(wait=False)
@@ -94,14 +107,14 @@ async def restart(client, message):
     osexecl(executable, executable, "-m", "bot")
 
 
-async def ping(client, message):
+async def ping(_, message):
     start_time = int(round(time() * 1000))
     reply = await sendMessage(message, "Starting Ping")
     end_time = int(round(time() * 1000))
     await editMessage(reply, f'{end_time - start_time} ms')
 
 
-async def log(client, message):
+async def log(_, message):
     await sendFile(message, 'log.txt')
 
 help_string = f'''
@@ -153,7 +166,7 @@ NOTE: Try each command without any argument to see more detalis.
 '''
 
 
-async def bot_help(client, message):
+async def bot_help(_, message):
     await sendMessage(message, help_string)
 
 
