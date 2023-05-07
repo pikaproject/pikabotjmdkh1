@@ -497,7 +497,7 @@ class MirrorLeechListener:
             count = len(download_dict)
             if self.uid in self.sameDir:
                 self.sameDir.remove(self.uid)
-       msg = f"<b>☞</b> {self.tag} {escape(error)}\n\n<b>☞ Elapsed</b>: {get_readable_time(time() - self.extra_details['startTime'])}"
+        msg = f"<b>☞</b> {self.tag} {escape(error)}\n\n<b>☞ Elapsed</b>: {get_readable_time(time() - self.extra_details['startTime'])}"
         msg += f"\n<b>☞</b> <b>Upload</b>: {self.extra_details['mode']}"
         await sendMessage(self.message, msg, button)
         if self.logMessage:
