@@ -63,7 +63,7 @@ rawindexpage = '''
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Torrent File Selector</title>
-    <link rel="icon" href="//cdn.jsdelivr.net/gh/junedkh/somesrcs@main/poster.png" type="image/jpg">
+    <link rel="icon" href="//telegra.ph/file/8607a726adebd9616e7b6.jpg" type="image/jpg">
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -84,12 +84,12 @@ rawindexpage = '''
     <!--© Designed and coded by @bipuldey19-Telegram-->
     <header>
         <div class="brand">
-            <img src="//cdn.jsdelivr.net/gh/junedkh/somesrcs@main/poster.png" alt="logo" />
+            <img src="//telegra.ph/file/8607a726adebd9616e7b6.jpg" alt="logo" />
         </div>
         <h2 class="name">Qbittorrent Selection</h2>
         <div class="social">
-            <a href="https://www.github.com/junedkh"><i class="fab fa-github"></i></a>
-            <a href="https://t.me/JMDKH_Team"><i class="fab fa-telegram"></i></a>
+            <a href="https://www.github.com/aenulrofik"><i class="fab fa-github"></i></a>
+            <a href="https://t.me/XRofikX"><i class="fab fa-telegram"></i></a>
         </div>
     </header>
     <!-- pin_entry -->
