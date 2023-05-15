@@ -59,7 +59,7 @@ def direct_link_generator(link: str):
         return pixeldrain(link)
     elif 'antfiles.com' in domain:
         return antfiles(link)
-    elif 'streamtape.com' in domain:
+    elif 'streamtape.com' in domain or 'strtape.cloud' in domain:
         return streamtape(link)
     elif 'racaty' in domain:
         return racaty(link)
@@ -333,17 +333,16 @@ def antfiles(url: str) -> str:
 
 
 def streamtape(url: str) -> str:
+    """ Streamtape direct link generator
+    Based on https://github.com/zevtyardt/lk21
     """
-    regex: https?://streamtape\.com/v/[^/]+/[^>]+
-    """
-
-    raw = self.session.get(url)
-
-    if (videolink := re.findall(r"document.*((?=id\=)[^\"']+)", raw.text)):
-        nexturl = "https://streamtape.com/get_video?" + videolink[-1]
-        self.report_bypass(nexturl)
-        if (redirect := self.bypass_redirect(nexturl)):
-            return redirect
+    try:
+        link = Bypass().bypass_streamtape(url)
+    except Exception as e:
+        raise DirectDownloadLinkException(f"ERROR: {e.__class__.__name__}")
+    if not link:
+        raise DirectDownloadLinkException("ERROR: Download link not found")
+    return link
 
 
 def racaty(url: str) -> str:
