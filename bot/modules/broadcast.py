@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 
-from bot import bot, dispatcher, LOGGER, config_dict
+from bot import bot, LOGGER, config_dict
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import sendMessage
 
