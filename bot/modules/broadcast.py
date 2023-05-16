@@ -16,7 +16,7 @@ async def broadcast(client, message):
         conn = MongoClient(config_dict['DATABASE_URL'])
         db = conn.mltb
         users_collection = db.users
-        users_count = await db.users.count_documents({})
+        users_count = db.users.count_documents({})  # Menghapus 'await' di sini
 
         chat_ids = [str(user["_id"]) for user in await users_collection.find({}, {"_id": 1})]
         success = 0
