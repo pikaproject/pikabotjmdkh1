@@ -2,11 +2,16 @@ from pymongo import MongoClient
 
 from bot import bot, LOGGER, config_dict
 from bot.helper.telegram_helper.filters import CustomFilters
-from bot.helper.telegram_helper.message_utils import sendMessage
 from pyrogram.filters import command, regex
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from bot.helper.telegram_helper.bot_commands import BotCommands
 
+async def sendMessage(client, chat_id, text):
+    try:
+        await client.send_message(chat_id=chat_id, text=text, disable_web_page_preview=True)
+    except Exception as e:
+        LOGGER.error(str(e))
+        
 async def broadcast(client, message):
     reply_to = message.reply_to_message
 
@@ -32,7 +37,8 @@ async def broadcast(client, message):
         msg += f"<b>Total {users_count} users in Database</b>\n"
         msg += f"<b>Sucess: </b>{success} users\n"
         msg += f"<b>Failed: </b>{users_count - success} users"
-        await sendMessage(msg, message) 
+        for chat_id in chat_ids:
+            await sendMessage(client, chat_id, msg)
 
 bot.add_handler(MessageHandler(broadcast, filters=command(
     BotCommands.Broadcast) & CustomFilters.sudo))
