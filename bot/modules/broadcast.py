@@ -7,11 +7,11 @@ from pyrogram.filters import command, regex
 from pyrogram.handlers import CallbackQueryHandler, MessageHandler
 from bot.helper.telegram_helper.bot_commands import BotCommands
 
-async def broadcast(client, message):
-    reply_to = message.reply_to_message
+async def broadcast(update, context):
+    reply_to = update.message.reply_to_message
 
     if not config_dict['DATABASE_URL']:
-        await sendMessage(chat_id=update.effective_chat.id, text=f"DATABASE_URL not provided")
+        context.bot.send_message(chat_id=update.effective_chat.id, text=f"DATABASE_URL not provided")
     else:
         conn = MongoClient(config_dict['DATABASE_URL'])
         db = conn.mltb
@@ -23,7 +23,7 @@ async def broadcast(client, message):
         
         for chat_id in chat_ids:
             try:
-                await message.copy(chat_id=chat_id, from_chat_id=update.message.chat.id, message_id=reply_to.message_id)
+                context.bot.copy_message(chat_id=chat_id, from_chat_id=update.message.chat.id, message_id=reply_to.message_id)
                 success += 1
             except Exception as err:
                 LOGGER.error(err)
@@ -32,7 +32,7 @@ async def broadcast(client, message):
         msg += f"<b>Total {users_count} users in Database</b>\n"
         msg += f"<b>Sucess: </b>{success} users\n"
         msg += f"<b>Failed: </b>{users_count - success} users"
-        return sendMessage(msg, message.copy, message) 
+        return sendMessage(msg, context.bot, update.message) 
 
 bot.add_handler(MessageHandler(broadcast, filters=command(
     BotCommands.Broadcast) & CustomFilters.sudo))
