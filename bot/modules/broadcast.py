@@ -22,7 +22,6 @@ async def broadcast(client, message):
     for chat_id in chat_ids:
         print("Processing chat ID:", chat_id)
         try:
-            # ...
         except Exception as err:
             LOGGER.error(err)
     
