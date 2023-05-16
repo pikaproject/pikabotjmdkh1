@@ -16,14 +16,14 @@ from bot.helper.ext_utils.bot_utils import (get_readable_message, setInterval,
 from bot.helper.telegram_helper.button_build import ButtonMaker
 
 
-async def sendMessage(message, text, buttons=None):
+async def sendMessage(message, text, buttons=None, reply_markup=None):
     try:
         return await message.reply(text=text, quote=True, disable_web_page_preview=True,
                                    disable_notification=True, reply_markup=buttons)
     except FloodWait as f:
         LOGGER.warning(str(f))
         await sleep(f.value * 1.2)
-        return await sendMessage(message, text, buttons)
+        return await sendMessage(message, text, buttons, reply_markup)
     except RPCError as e:
         LOGGER.error(f"{e.NAME}: {e.MESSAGE}")
     except Exception as e:
