@@ -18,8 +18,7 @@ async def broadcast(client, message):
         users_collection = db.users
         users_count = db.users.count_documents({})
 
-        chat_ids_cursor = users_collection.find({}, {"_id": 1})
-        chat_ids = [str(user["_id"]) async for user in await chat_ids_cursor.to_list()]  # Menggunakan 'async for' setelah 'await'
+        chat_ids = [str(user["_id"]) for user in users_collection.find({}, {"_id": 1})]
         success = 0
 
         for chat_id in chat_ids:
