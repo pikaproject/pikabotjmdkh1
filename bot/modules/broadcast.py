@@ -32,4 +32,4 @@ def broadcast(update, context):
         return sendMessage(msg, context.bot, update.message) 
 
 bot.add_handler(MessageHandler(broadcast, filters=command(
-    BotCommands.BotSetCommand) & CustomFilters.sudo))
+    BotCommands.Broadcast) & CustomFilters.sudo))
