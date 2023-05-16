@@ -16,10 +16,10 @@ async def broadcast(client, message):
         conn = MongoClient(config_dict['DATABASE_URL'])
         db = conn.mltb
         users_collection = db.users
-        users_count = db.users.count_documents({})  # Menghapus 'await' di sini
+        users_count = db.users.count_documents({})
 
         chat_ids_cursor = users_collection.find({}, {"_id": 1})
-        chat_ids = [str(user["_id"]) async for user in chat_ids_cursor]
+        chat_ids = [str(user["_id"]) async for user in await chat_ids_cursor.to_list()]  # Menggunakan 'async for' setelah 'await'
         success = 0
 
         for chat_id in chat_ids:
