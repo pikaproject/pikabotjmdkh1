@@ -1,5 +1,4 @@
 from pymongo import MongoClient
-from telegram.ext import CommandHandler, Filters
 
 from bot import bot, dispatcher, LOGGER, config_dict
 from bot.helper.telegram_helper.filters import CustomFilters
@@ -32,5 +31,5 @@ def broadcast(update, context):
         msg += f"<b>Failed: </b>{users_count - success} users"
         return sendMessage(msg, context.bot, update.message) 
 
-broadcast_handler = CommandHandler("broadcast", broadcast, filters=CustomFilters.sudo)
-dispatcher.add_handler(broadcast_handler)
+bot.add_handler(MessageHandler(broadcast, filters=command(
+    BotCommands.BotSetCommand) & CustomFilters.sudo))
