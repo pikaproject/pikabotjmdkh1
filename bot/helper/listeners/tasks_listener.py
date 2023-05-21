@@ -416,7 +416,7 @@ class MirrorLeechListener:
             if mime_type == "Folder":
                 msg += f'\n<b>☞ SubFolders: </b>{folders}'
                 msg += f'\n<b>☞ Files: </b>{files}'
-               try:
+                try:
                     drive_id = GoogleDriveHelper.getIdFromUrl(link)
                     msg += f"\n\n<b>☞ Folder id</b>: <code>{drive_id}</code>"
                 except:
