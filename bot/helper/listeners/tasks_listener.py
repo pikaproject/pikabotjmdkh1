@@ -418,7 +418,7 @@ class MirrorLeechListener:
                 msg += f'\n<b>☞ Files: </b>{files}'
                 try:
                     drive_id = GoogleDriveHelper.getIdFromUrl(link)
-                    msg += f"\n\n<b>☞ Folder id</b>: <code>{drive_id}</code>"
+                    msg += f"\n<b>☞ Folder id</b>: <code>{drive_id}</code>"
                 except:
                     pass
             msg += f'\n<b>☞ Elapsed</b>: {get_readable_time(time() - self.extra_details["startTime"])}'
@@ -448,7 +448,7 @@ class MirrorLeechListener:
                             buttons.ubutton("⚡ Google Index", share_url)
                             if mime_type.startswith(('image', 'video', 'audio')):
                                 share_urls = f'{INDEX_URL}/{url_path}?a=view'
-                                buttons.ubutton("🌐 View Link", share_urls)
+                                buttons.ubutton("🖥️ View Media", share_urls)
                 buttons = extra_btns(buttons)
                 if self.dmMessage:
                     msg += '\n\n<b>Links has been sent in your DM.</b>'
