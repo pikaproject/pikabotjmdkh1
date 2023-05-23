@@ -451,7 +451,7 @@ class MirrorLeechListener:
                             buttons.ubutton("⚡ Google Index", share_url)
                             if mime_type.startswith(('image', 'video', 'audio')):
                                 share_urls = f'{INDEX_URL}/{url_path}?a=view'
-                                buttons.ubutton("🖥️ View Media", share_urls)
+                                buttons.ubutton("🎬 View Media", share_urls)
                 buttons = extra_btns(buttons)
                 if self.dmMessage:
                     msg += '\n\n<b>Links has been sent in your DM.</b>'
