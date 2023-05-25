@@ -33,6 +33,6 @@ async def broadcast(bot, message):
         msg += f"<b>Total {users_count} users in Database</b>\n"
         msg += f"<b>Success: </b>{success} users\n"
         msg += f"<b>Failed: </b>{users_count - success} users"
-        await sendMessage(msg, bot, message)
+        return await sendMessage(msg, bot, message)
 
 bot.add_handler(MessageHandler(broadcast, filters=command(BotCommands.Broadcast) & CustomFilters.sudo))
