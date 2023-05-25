@@ -23,7 +23,7 @@ from bot.helper.telegram_helper.button_build import ButtonMaker
 
 THREADPOOL = ThreadPoolExecutor(max_workers=1000)
 
-MAGNET_REGEX = r'magnet:\?xt=urn:(btih|btmh):[a-zA-Z0-9]*\s*'
+MAGNET_REGEX = r'^magnet:\?.*xt=urn:(btih|btmh):[a-zA-Z0-9]*\s*'
 
 URL_REGEX = r'^(?!\/)(rtmps?:\/\/|mms:\/\/|rtsp:\/\/|https?:\/\/|ftp:\/\/)?([^\/:]+:[^\/@]+@)?(www\.)?(?=[^\/:\s]+\.[^\/:\s]+)([^\/:\s]+\.[^\/:\s]+)(:\d+)?(\/[^#\s]*[\s\S]*)?(\?[^#\s]*)?(#.*)?$'
 
@@ -158,7 +158,7 @@ def get_readable_message():
         msg += f"\n<b>☞ Source</b>: {download.extra_details['source']}"
         msg += f"\n<b>☞ Elapsed</b>: {get_readable_time(time() - download.extra_details['startTime'])}"
         msg += f"\n<b>☞ Engine</b>: {download.engine}"
-        msg += f"\n<b>☞ Upload</b>: {download.extra_details['mode']}"
+        #msg += f"\n<b>☞ Upload</b>: {download.extra_details['mode']}"
         msg += f"\n<b>☞ To Cancel</b>: <code>/{BotCommands.CancelMirror} {download.gid()}</code>\n\n"
     if len(msg) == 0:
         return None, None
@@ -192,7 +192,7 @@ def get_readable_message():
         button = buttons.build_menu(3)
     msg += f"<b>─────《<a href='https://t.me/XRofikX'>𝑷𝒊𝒌𝒂𝒄𝒉𝒖</a>》─────</b>\n<b>CPU</b>: {cpu_percent()}% | <b>FREE</b>: {get_readable_file_size(disk_usage(config_dict['DOWNLOAD_DIR']).free)}"
     msg += f"\n<b>RAM</b>: {virtual_memory().percent}% | <b>UPTIME</b>: {get_readable_time(time() - botStartTime)}"
-    msg += f"\n<b>⬇️</b>: {get_readable_file_size(dl_speed)}/s | <b>⬆️</b>: {get_readable_file_size(up_speed)}/s"
+    msg += f"\n<b>DL</b>: {get_readable_file_size(dl_speed)}/s | <b>UL</b>: {get_readable_file_size(up_speed)}/s"
     return msg, button
 
 

@@ -155,7 +155,10 @@ class MirrorLeechListener:
             await self.onUploadError('Downloaded! Waiting for other tasks...')
             return
         if name == "None" or self.isQbit or not await aiopath.exists(f"{self.dir}/{name}"):
-            name = (await listdir(self.dir))[0]
+            files = await listdir(self.dir)
+            name = files[-1]
+            if name == "yt-dlp-thumb":
+                name = files[0]
         m_path = f"{self.dir}/{name}"
         size = await get_path_size(m_path)
         async with queue_dict_lock:
@@ -416,8 +419,11 @@ class MirrorLeechListener:
             if mime_type == "Folder":
                 msg += f'\n<b>☞ SubFolders: </b>{folders}'
                 msg += f'\n<b>☞ Files: </b>{files}'
-                drive_id = GoogleDriveHelper.getIdFromUrl(link)
-                msg += f"\n<b>☞ Folder id</b>: <code>{drive_id}</code>"
+                try:
+                    drive_id = GoogleDriveHelper.getIdFromUrl(link)
+                    msg += f"\n<b>☞ Folder id</b>: <code>{drive_id}</code>"
+                except:
+                    pass
             msg += f'\n<b>☞ Elapsed</b>: {get_readable_time(time() - self.extra_details["startTime"])}'
             msg += f'\n\n<b>☞ Task_By</b>: {self.tag}'
             if link or rclonePath and config_dict['RCLONE_SERVE_URL']:
@@ -445,7 +451,7 @@ class MirrorLeechListener:
                             buttons.ubutton("⚡ Google Index", share_url)
                             if mime_type.startswith(('image', 'video', 'audio')):
                                 share_urls = f'{INDEX_URL}/{url_path}?a=view'
-                                buttons.ubutton("🌐 View Link", share_urls)
+                                buttons.ubutton("🎬 View Media", share_urls)
                 buttons = extra_btns(buttons)
                 if self.dmMessage:
                     msg += '\n\n<b>Links has been sent in your DM.</b>'

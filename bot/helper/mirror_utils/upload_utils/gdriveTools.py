@@ -615,7 +615,7 @@ class GoogleDriveHelper:
                         msg += f'<b><a href="{url}">Index Link</a></b>'
                         if mime_type.startswith(('image', 'video', 'audio')):
                             urlv = f'{index_url}/{url_path}?a=view'
-                            msg += f' | <b><a href="{urlv}">View Link</a></b>'
+                            msg += f' | <b><a href="{urlv}">View Media</a></b>'
                 msg += '<br><br>'
                 contents_no += 1
                 if len(msg.encode('utf-8')) > 39000:
