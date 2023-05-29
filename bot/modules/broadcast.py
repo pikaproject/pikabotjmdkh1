@@ -1,14 +1,12 @@
 from pymongo import MongoClient
-from pyrogram import Client, filters
+from pyrogram import Client, Filters
 from pyrogram.types import Message
 
-from bot import bot, LOGGER, config_dict
+from bot import bot, config_dict, LOGGER
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import sendMessage
 
-
-@bot.on_message(filters.command('broadcast1') & CustomFilters.owner_filter)
-async def broadcast(client, message):
+async def broadcast(client: Client, message: Message):
     reply_to = message.reply_to_message
 
     if not config_dict['DATABASE_URL']:
@@ -31,7 +29,11 @@ async def broadcast(client, message):
 
         msg = f"<b>Broadcasting Completed</b>\n"
         msg += f"<b>Total {users_count} users in Database</b>\n"
-        msg += f"<b>Success: </b>{success} users\n"
+        msg += f"<b>Sucess: </b>{success} users\n"
         msg += f"<b>Failed: </b>{users_count - success} users"
         await sendMessage(msg, client, message)
+
+@bot.on_message(Filters.command(['broadcast']) & CustomFilters.owner_filter)
+async def broadcast_handler(client: Client, message: Message):
+    await broadcast(client, message)
 
