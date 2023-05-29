@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from pyrogram import Client, Filters
+from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from bot import bot, config_dict, LOGGER
@@ -33,7 +33,7 @@ async def broadcast(client: Client, message: Message):
         msg += f"<b>Failed: </b>{users_count - success} users"
         await sendMessage(msg, client, message)
 
-@bot.on_message(Filters.command(['broadcast']) & CustomFilters.owner_filter)
+@bot.on_message(filters.command(['broadcast']) & CustomFilters.owner_filter)
 async def broadcast_handler(client: Client, message: Message):
     await broadcast(client, message)
 
