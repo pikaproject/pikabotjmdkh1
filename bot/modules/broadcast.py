@@ -8,11 +8,11 @@ from bot.helper.telegram_helper.message_utils import sendMessage
 
 
 @bot.on_message(filters.command('broadcast1') & CustomFilters.owner_filter)
-def broadcast(client, message):
+async def broadcast(client, message):
     reply_to = message.reply_to_message
 
     if not config_dict['DATABASE_URL']:
-        client.send_message(chat_id=message.chat.id, text=f"DATABASE_URL not provided")
+        await client.send_message(chat_id=message.chat.id, text=f"DATABASE_URL not provided")
     else:
         conn = MongoClient(config_dict['DATABASE_URL'])
         db = conn.mltb
@@ -24,7 +24,7 @@ def broadcast(client, message):
 
         for chat_id in chat_ids:
             try:
-                client.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=reply_to.message_id)
+                await client.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=reply_to.message_id)
                 success += 1
             except Exception as err:
                 LOGGER.error(err)
@@ -33,5 +33,5 @@ def broadcast(client, message):
         msg += f"<b>Total {users_count} users in Database</b>\n"
         msg += f"<b>Success: </b>{success} users\n"
         msg += f"<b>Failed: </b>{users_count - success} users"
-        sendMessage(msg, client, message)
+        await sendMessage(msg, client, message)
 
