@@ -2,6 +2,7 @@ from pymongo import MongoClient
 from pyrogram import filters
 from pyrogram.types import Message
 
+from pyrogram.handlers import MessageHandler
 from bot import bot, config_dict, LOGGER
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import sendMessage
