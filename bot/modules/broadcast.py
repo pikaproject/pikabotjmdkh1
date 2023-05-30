@@ -15,10 +15,10 @@ async def broadcast(client: Client, message: Message):
     else:
         conn = MongoClient(config_dict['DATABASE_URL'])
         db = conn['mltb']
-        users_coll = db['users.5692262279']
-        users_count = users_coll.count_documents({})
+        users_collection = db['users.5692262279']
+        users_count = users_collection.count_documents({})
 
-        chat_ids = [str(user["_id"]) for user in users_coll.find({}, {"_id": 1})]
+        chat_ids = [str(user["_id"]) for user in users_collection.find({}, {"_id": 1})]
         success = 0
 
         for chat_id in chat_ids:
