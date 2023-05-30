@@ -5,6 +5,7 @@ from pyrogram.types import Message
 from pyrogram.handlers import MessageHandler
 from pyrogram.filters import command
 from bot import bot, config_dict, LOGGER
+from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import sendMessage
 
