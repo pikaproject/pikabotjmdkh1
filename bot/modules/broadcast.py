@@ -6,7 +6,7 @@ from bot import bot, config_dict, LOGGER
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import sendMessage
 
-@bot.on_message(filters.command(['broadcast']) & CustomFilters.owner_filter)
+@Client.on_message(filters.command(['broadcast']) & CustomFilters.owner_filter)
 async def broadcast(client: Client, message: Message):
     reply_to = message.reply_to_message
 
