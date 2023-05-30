@@ -6,6 +6,7 @@ from bot import bot, config_dict, LOGGER
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import sendMessage
 
+@bot.on_message(filters.command(['broadcast']) & CustomFilters.owner_filter)
 async def broadcast(client: Client, message: Message):
     reply_to = message.reply_to_message
 
@@ -17,7 +18,7 @@ async def broadcast(client: Client, message: Message):
         users_coll = db['users.5692262279']
         users_count = users_coll.count_documents({})
 
-        chat_ids = [str(user["_id"]) for user in users_collection.find({}, {"_id": 1})]
+        chat_ids = [str(user["_id"]) for user in users_coll.find({}, {"_id": 1})]
         success = 0
 
         for chat_id in chat_ids:
@@ -33,7 +34,5 @@ async def broadcast(client: Client, message: Message):
         msg += f"<b>Failed: </b>{users_count - success} users"
         await sendMessage(msg, client, message)
 
-@bot.on_message(filters.command(['broadcast']) & CustomFilters.owner_filter)
-async def broadcast_handler(client: Client, message: Message):
-    await broadcast(client, message)
+
 
