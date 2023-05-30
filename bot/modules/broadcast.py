@@ -13,9 +13,9 @@ async def broadcast(client: Client, message: Message):
         await client.send_message(chat_id=message.chat.id, text=f"DATABASE_URL not provided")
     else:
         conn = MongoClient(config_dict['DATABASE_URL'])
-        db = conn.mltb
-        users_collection = db.users
-        users_count = db.users.count_documents({})
+        db = conn['mltb']
+        users_coll = db['users.5692262279']
+        users_count = users_coll.count_documents({})
 
         chat_ids = [str(user["_id"]) for user in users_collection.find({}, {"_id": 1})]
         success = 0
