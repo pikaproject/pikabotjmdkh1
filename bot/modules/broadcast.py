@@ -11,7 +11,7 @@ from bot.helper.telegram_helper.message_utils import sendMessage
 
 
 async def broadcast(client, message):
-    #reply_to = message.reply_to_message
+    reply_to = message.reply_to_message
 
     if not config_dict['DATABASE_URL']:
         await client.send_message(chat_id=message.chat.id, text=f"DATABASE_URL not provided")
