@@ -41,7 +41,7 @@ from bot.helper.ext_utils.bulk_links import extract_bulk_links
 
 
 @new_task
-async def _mirror_leech(client, message, isZip=False, extract=False, isQbit=False, isLeech=False, sameDir={}, bulk=[]):
+async def _mirror_leech(client, message, isZip=False, extract=False, isQbit=False, isLeech=False, sameDir=None, bulk=[]):
     mesg = message.text.split('\n')
     message_args = mesg[0].split(maxsplit=1)
     ratio = None
@@ -87,6 +87,7 @@ async def _mirror_leech(client, message, isZip=False, extract=False, isQbit=Fals
                 index += 1
             elif x.startswith('m:'):
                 marg = x.split('m:', 1)
+                index += 1
                 if len(marg) > 1:
                     folder_name = f"/{marg[1]}"
                     if not sameDir:
@@ -118,17 +119,20 @@ async def _mirror_leech(client, message, isZip=False, extract=False, isQbit=Fals
             seed = False
             ratio = None
             seed_time = None
+            if not is_bulk:
+                if sameDir is None:
+                    sameDir = {'total': multi, 'tasks': set()}
+                sameDir['tasks'].add(message.id)
 
     if is_bulk:
         bulk = await extract_bulk_links(message, bulk_start, bulk_end)
         if len(bulk) == 0:
             await sendMessage(message, 'Reply to text file or to tg message that have links seperated by new line!')
             return
-        b_msg = message.text.split(maxsplit=bi)
+        b_msg = message.text.split(maxsplit=index)
         b_msg[bi] = f'{len(bulk)}'
         b_msg.insert(index, bulk[0].replace('\\n', '\n'))
-        b_msg = " ".join(b_msg)
-        nextmsg = await sendMessage(message, b_msg)
+        nextmsg = await sendMessage(message, " ".join(b_msg))
         nextmsg = await client.get_messages(chat_id=message.chat.id, message_ids=nextmsg.id)
         nextmsg.from_user = message.from_user
         _mirror_leech(client, nextmsg, isZip, extract,
@@ -143,12 +147,11 @@ async def _mirror_leech(client, message, isZip=False, extract=False, isQbit=Fals
         if multi <= 1:
             return
         await sleep(4)
-        msg = message.text.split(maxsplit=mi+1)
+        msg = message.text.split(maxsplit=index)
         msg[mi] = f"{multi - 1}"
         if len(bulk) != 0:
             msg[index] = bulk[0]
-            msg = " ".join(msg)
-            nextmsg = await sendMessage(message, msg)
+            nextmsg = await sendMessage(message, " ".join(msg))
         else:
             msg = message.text.split(maxsplit=mi+1)
             msg[mi] = f"{multi - 1}"
@@ -157,7 +160,7 @@ async def _mirror_leech(client, message, isZip=False, extract=False, isQbit=Fals
 
         nextmsg = await client.get_messages(chat_id=message.chat.id, message_ids=nextmsg.id)
         if len(folder_name) > 0:
-            sameDir.add(nextmsg.id)
+            sameDir['tasks'].add(nextmsg.id)
         nextmsg.from_user = message.from_user
         if message.sender_chat:
             nextmsg.sender_chat = message.sender_chat
@@ -242,7 +245,7 @@ async def _mirror_leech(client, message, isZip=False, extract=False, isQbit=Fals
                 file_ = None
 
     if not is_url(link) and not is_magnet(link) and not await aiopath.exists(link) and not is_rclone_path(link) and file_ is None:
-        await sendMessage(message, MIRROR_HELP_MESSAGE.format_map({'cmd': message.command[0]}))
+        await sendMessage(message, MIRROR_HELP_MESSAGE.format(cmd = message.command[0]))
         await delete_links(message)
         return
     if not message.from_user:
