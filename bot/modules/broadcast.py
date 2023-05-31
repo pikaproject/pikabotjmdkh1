@@ -10,7 +10,8 @@ from bot.helper.telegram_helper.message_utils import sendMessage
 
 
 async def broadcast(client, message):
-
+    replied = message.reply_to_message
+    
     if not config_dict['DATABASE_URL']:
         await client.send_message(chat_id=message.chat.id, text=f"DATABASE_URL not provided")
     else:
@@ -24,8 +25,7 @@ async def broadcast(client, message):
 
         for chat_id in chat_ids:
             try:
-                #replied= message.reply_to_message
-                await client.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.reply_to_message.id)
+                await client.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=replied.id)
                 success += 1
             except Exception as err:
                 LOGGER.error(err)
@@ -34,7 +34,7 @@ async def broadcast(client, message):
         msg += f"<b>Total {users_count} users in Database</b>\n"
         msg += f"<b>Sucess: </b>{success} users\n"
         msg += f"<b>Failed: </b>{users_count - success} users"
-        await message.reply(msg, message)
+        await sendMessage(msg, client, message)
 
 
 bot.add_handler(MessageHandler(broadcast, filters=command(BotCommands.Broadcast) & CustomFilters.sudo))
