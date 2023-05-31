@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 from pyrogram import filters
+from pyrogram.types import Message
 
 from pyrogram.handlers import MessageHandler
 from pyrogram.filters import command
@@ -9,7 +10,7 @@ from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import sendMessage
 
 
-async def broadcast(client, message):
+async def broadcast(client, message : Message):
     replied = message.reply_to_message
     
     if not config_dict['DATABASE_URL']:
@@ -25,7 +26,7 @@ async def broadcast(client, message):
 
         for chat_id in chat_ids:
             try:
-                await client.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=reply_to_message.id)
+                await client.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=replied.id)
                 success += 1
             except Exception as err:
                 LOGGER.error(err)
