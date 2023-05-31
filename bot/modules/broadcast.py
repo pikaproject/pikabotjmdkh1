@@ -25,7 +25,7 @@ async def broadcast(client, message):
         for chat_id in chat_ids:
             try:
                 #reply_to = message.reply_to_message
-                await client.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.reply_to_message_id)
+                await client.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.reply_to_message_ids)
                 success += 1
             except Exception as err:
                 LOGGER.error(err)
@@ -34,7 +34,7 @@ async def broadcast(client, message):
         msg += f"<b>Total {users_count} users in Database</b>\n"
         msg += f"<b>Sucess: </b>{success} users\n"
         msg += f"<b>Failed: </b>{users_count - success} users"
-        await sendMessage(msg, client, message)
+        await mesage.reply(msg, message)
 
 
 bot.add_handler(MessageHandler(broadcast, filters=command(BotCommands.Broadcast) & CustomFilters.sudo))
