@@ -25,7 +25,7 @@ async def broadcast(client, message):
         for chat_id in chat_ids:
             try:
                 #reply_to = message.reply_to_message
-                await client.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.reply_to_message_ids)
+                await client.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.reply_to_message_id)
                 success += 1
             except Exception as err:
                 LOGGER.error(err)
