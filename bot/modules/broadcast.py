@@ -9,7 +9,7 @@ from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import sendMessage
 
 
-async def broadcast(client, message: Message):
+async def broadcast(client, message):
     replied = message.reply_to_message
     
     if not config_dict['DATABASE_URL']:
