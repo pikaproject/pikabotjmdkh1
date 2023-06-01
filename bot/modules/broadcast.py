@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from pyrogram import filters
+from pyrogram import Client, filters
 from pyrogram.types import Message
 
 from pyrogram.handlers import MessageHandler
