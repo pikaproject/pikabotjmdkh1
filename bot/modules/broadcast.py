@@ -13,7 +13,7 @@ from bot.helper.telegram_helper.message_utils import sendMessage, editMessage
 async def broadcast(client, message):
     reply_to = message.reply_to_message
     limz = "Broadcast your Message Please wait...."
-    a = await message.reply(client, message, limz)
+    a = await client.send_message(client, message, limz)
     
     if not config_dict['DATABASE_URL']:
         await client.send_message(chat_id=message.chat.id, text=f"DATABASE_URL not provided")
