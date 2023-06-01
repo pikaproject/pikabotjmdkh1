@@ -13,7 +13,7 @@ from bot.helper.telegram_helper.message_utils import sendMessage, editMessage
 async def broadcast(client, message):
     #reply_to = message.reply_to_message
     limz = "Broadcast your Message Please wait...."
-    a = await client.send_message(client, message, limz)
+    a = await sendMessage(message, limz)
     
     if not config_dict['DATABASE_URL']:
         await client.send_message(chat_id=message.chat.id, text=f"DATABASE_URL not provided")
@@ -37,7 +37,7 @@ async def broadcast(client, message):
         msg += f"Total {users_count} users in Database\n"
         msg += f"Sucess: {success} users\n"
         msg += f"Failed: {users_count - success} users"
-        await message.edit(msg, a)
+        await editMessage(msg, a)
 
 async def broadcast_psn(client, message):
     mess = message.text.split()
