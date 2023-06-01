@@ -26,7 +26,7 @@ async def broadcast(client, message):
         chat_ids = [str(user["_id"]) for user in users_collection.find({}, {"_id": 1})]
         success = 0
 
-        async for chat_id in chat_ids:
+        for chat_id in chat_ids:
             try:
                 await message.copy(chat_id=chat_id)
                 success += 1
