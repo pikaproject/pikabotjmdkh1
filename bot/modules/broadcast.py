@@ -41,7 +41,7 @@ async def broadcast(client, message):
 
 async def broadcast_psn(client, message):
     mess = message.text.split()
-    replied = message.reply_to_message.text
+    #replied = message.reply_to_message.text
     #replied_text = replied.text.split(' ', 1)[1]
     if len(mess) > 1:
        message = " ".join([k for k in mess if k != "/broadcast"])
