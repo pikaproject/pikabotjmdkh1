@@ -10,7 +10,7 @@ from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import sendMessage
 
 
-async def broadcast_handler(bot, message: Message):
+async def broadcast_handler(bot : Client, message: Message):
     replied = message.reply_to_message
 
     if not config_dict['DATABASE_URL']:
@@ -26,7 +26,7 @@ async def broadcast_handler(bot, message: Message):
 
         for chat_id in chat_ids:
             try:
-                await bot.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.message_id)
+                await bot.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
                 success += 1
             except Exception as err:
                 LOGGER.error(err)
