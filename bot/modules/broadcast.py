@@ -10,7 +10,7 @@ from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import sendMessage, editMessage
 
 
-async def broadcast(client, message : Message):
+async def broadcast(client, message):
     replied = message.reply_to_message
     limz = "Broadcast your Message Please wait...."
     a = await sendMessage(client, message, limz)
@@ -29,7 +29,6 @@ async def broadcast(client, message : Message):
         for chat_id in chat_ids:
             try:
                 await message.copy(chat_id=chat_id)
-                #from_chat_id=message.chat.id, message_id=message.id)
                 success += 1
             except Exception as err:
                 LOGGER.error(err)
@@ -38,7 +37,7 @@ async def broadcast(client, message : Message):
         msg += f"Total {users_count} users in Database\n"
         msg += f"Sucess: {success} users\n"
         msg += f"Failed: {users_count - success} users"
-        await message.reply(msg, message)
+        await sendMessage(msg, message)
 
 
 bot.add_handler(MessageHandler(broadcast, filters=command(BotCommands.Broadcast) & CustomFilters.sudo))
