@@ -35,7 +35,7 @@ async def broadcast_handler(bot, message: Message):
         msg += f"Total {users_count} users in Database\n"
         msg += f"Success: {success} users\n"
         msg += f"Failed: {users_count - success} users"
-        await sendMessage(bot, message.chat.id, text=msg)
+        await sendMessage(bot, message.chat.id, msg)
 
 
 async def broadcast_command_handler(_, message: Message):
