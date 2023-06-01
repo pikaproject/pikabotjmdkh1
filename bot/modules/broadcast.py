@@ -39,7 +39,7 @@ async def broadcast(client, message):
         msg += f"Failed: {users_count - success} users"
         await message.edit(msg, message)
 
-async def broadcast_psn(message):
+async def broadcast_psn(client, message):
     mess = message.text.split()
     replied = message.reply_to_message.text
     #replied_text = replied.text.split(' ', 1)[1]
