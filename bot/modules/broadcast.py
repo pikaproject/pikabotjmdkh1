@@ -26,7 +26,7 @@ async def broadcast(client, message):
         chat_ids = [str(user["_id"]) for user in users_collection.find({}, {"_id": 1})]
         success = 0
 
-        for chat_id in chat_ids:
+        async for chat_id in chat_ids:
             try:
                 await message.copy(chat_id=chat_id)
                 success += 1
@@ -39,14 +39,15 @@ async def broadcast(client, message):
         msg += f"Failed: {users_count - success} users"
         await message.edit(msg, message)
 
-async def broadcast_psn(client, message):
-    mess = message.text.split(' ', 1)[1]
-    replied = message.reply_to_message
-    replied_text = replied.text.split(' ', 1)[1]
-    if message := mess:
+async def broadcast_psn(message):
+    mess = message.text.split()
+    replied = message.reply_to_message.text
+    #replied_text = replied.text.split(' ', 1)[1]
+    if len(mess) > 1:
+       message = del mess[0]
        await broadcast(client, message)
-    elif replied := reply_to_message:
-       await broadcast(client, message)
+    #elif len(message) >replied := reply_to_message:
+       #await broadcast(client, message)
     else:
        await message.reply(message, "Gunakan /broadcast Untuk Melakukan tugas ini")
 
