@@ -10,11 +10,11 @@ from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import sendMessage
 
 
-async def broadcast(client, message : Message):
+async def broadcast_handler(bot, message: Message):
     replied = message.reply_to_message
-    
+
     if not config_dict['DATABASE_URL']:
-        await client.send_message(chat_id=message.chat.id, text=f"DATABASE_URL not provided")
+        await sendMessage(bot, message.chat.id, text="DATABASE_URL not provided")
     else:
         conn = MongoClient(config_dict['DATABASE_URL'])
         db = conn['mltb']
@@ -26,17 +26,19 @@ async def broadcast(client, message : Message):
 
         for chat_id in chat_ids:
             try:
-                await client.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
+                await bot.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.message_id)
                 success += 1
             except Exception as err:
                 LOGGER.error(err)
 
-        msg = f"<b>Broadcasting Completed</b>\n"
-        msg += f"<b>Total {users_count} users in Database</b>\n"
-        msg += f"<b>Sucess: </b>{success} users\n"
-        msg += f"<b>Failed: </b>{users_count - success} users"
-        await message.reply(msg, message)
+        msg = f"Broadcasting Completed\n"
+        msg += f"Total {users_count} users in Database\n"
+        msg += f"Success: {success} users\n"
+        msg += f"Failed: {users_count - success} users"
+        await sendMessage(bot, message.chat.id, text=msg)
 
 
-bot.add_handler(MessageHandler(broadcast, filters=command(BotCommands.Broadcast) & CustomFilters.sudo))
+async def broadcast_command_handler(_, message: Message):
+    await broadcast_handler(bot, message)
 
+bot.add_handler(MessageHandler(broadcast_command_handler, filters=command(BotCommands.Broadcast) & CustomFilters.sudo))
