@@ -43,7 +43,9 @@ async def broadcast_psn(client, message):
     mess = message.text.split(' ', 1)[1]
     replied = message.reply_to_message
     replied_text = replied.text.split(' ', 1)[1]
-    if message := mess and replied := reply_to_message:
+    if message := mess:
+       await broadcast(client, message)
+    elif replied := reply_to_message:
        await broadcast(client, message)
     else:
        await message.reply(message, "Gunakan /broadcast Untuk Melakukan tugas ini")
