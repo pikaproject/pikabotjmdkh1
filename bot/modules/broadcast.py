@@ -27,7 +27,7 @@ async def broadcast(client, message):
         for chat_id in chat_ids:
             try:
                 if auth := True:
-                   return await client.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, reply_message_id=message.message_id)#reply_message_id = message.reply_to_message.message_id #message_id=reply_to_message.id)
+                   return await client.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, reply_message_id=message.id)#reply_message_id = message.reply_to_message.message_id #message_id=reply_to_message.id)
                    success += 1
                 else:
                     await client.send_message(chat_id=message.chat.id, text= "Error : Bot tidak berinteraksi Dengan User id atau chat Id Yang Gagal" )
