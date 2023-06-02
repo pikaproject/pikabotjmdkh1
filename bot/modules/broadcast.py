@@ -28,7 +28,7 @@ async def broadcast(client, message):
             try:
                 if auth := True:
                    return await client.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
-                    success += 1
+                   success += 1
                 else:
                     await message.reply(text= "Error : Bot tidak berinteraksi Dengan User id atau chat Id Yang Gagal" )
             except Exception as err:
