@@ -21,12 +21,16 @@ async def broadcast(client, message):
         users_count = users_collection.count_documents({})
 
         chat_ids = [str(user["_id"]) for user in users_collection.find({}, {"_id": 1})]
+        auth = [str(user["is_auth"]) for user in users_collection.find({}, {"is_auth": 1})]
         success = 0
 
         for chat_id in chat_ids:
             try:
-                await client.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
-                success += 1
+                if auth = True
+                   return await client.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
+                    success += 1
+                else:
+                    await message.reply(text= "Error : Bot tidak berinteraksi Dengan User id atau chat Id Yang Gagal" )
             except Exception as err:
                 LOGGER.error(err)
 
