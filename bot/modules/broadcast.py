@@ -25,7 +25,7 @@ async def broadcast(client, message):
 
         for chat_id in chat_ids:
             try:
-                await message.copy(chat_id=chat_id)
+                await client.copy_message(chat_id=chat_id, from_chat_id=message.chat_id, message_id=message.message.id)
                 success += 1
             except Exception as err:
                 LOGGER.error(err)
@@ -34,7 +34,7 @@ async def broadcast(client, message):
         msg += f"Total {users_count} users in Database\n"
         msg += f"Sucess: {success} users\n"
         msg += f"Failed: {users_count - success} users"
-        await message.reply(msg, message)
+        await message.reply(msg)
 
 async def broadcast_psn(client, message):
     mess = message.text.split()
