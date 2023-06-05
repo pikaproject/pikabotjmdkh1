@@ -21,8 +21,8 @@ async def broadcast_messages(chat_id, message):
         return await broadcast(chat_id, message)
 
 async def broadcast(bot, message):
-    b_msg = message.reply_to_message
     a = sendMessage(f"Broadcasting Your Message", message)
+    b_msg = message.reply_to_message
     if not config_dict['DATABASE_URL']:
         await sendMessage(f"DATABASE_URL not provided", message)
     else:
