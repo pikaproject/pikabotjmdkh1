@@ -22,7 +22,8 @@ async def broadcast_messages(chat_id, message):
 
 async def broadcast(client, message):
     a = sendMessage(f"Broadcasting Your Message", message)
-    reply_to = message.reply_to_message
+    mess = message.text.split()
+    
     if not config_dict['DATABASE_URL']:
         await sendMessage(f"DATABASE_URL not provided", message)
     else:
@@ -36,7 +37,7 @@ async def broadcast(client, message):
         success = 0
 
         for chat_id in chat_ids:
-            await broadcast(chat_id, reply_to)
+            await broadcast(chat_id, mess[1])
             success += 1
         msg = f"Broadcasting Completed\n"
         msg += f"Total {users_count} users in Database\n"
