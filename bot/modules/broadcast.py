@@ -20,9 +20,9 @@ async def broadcast_messages(chat_id, message):
         await asyncio.sleep(e.x)
         return await broadcast(chat_id, message)
 
-async def broadcast(bot, message):
+async def broadcast(client, message):
     a = sendMessage(f"Broadcasting Your Message", message)
-    b_msg = message.reply_to_message
+    reply_to = message.reply_to_message
     if not config_dict['DATABASE_URL']:
         await sendMessage(f"DATABASE_URL not provided", message)
     else:
@@ -36,7 +36,7 @@ async def broadcast(bot, message):
         success = 0
 
         for chat_id in chat_ids:
-            await broadcast(chat_id, b_msg)
+            await broadcast(chat_id, reply_to)
             success += 1
         msg = f"Broadcasting Completed\n"
         msg += f"Total {users_count} users in Database\n"
