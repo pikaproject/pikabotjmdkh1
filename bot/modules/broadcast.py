@@ -1,7 +1,6 @@
 from asyncio import sleep
 from pymongo import MongoClient
 from pyrogram import filters
-from pyrogram.types import Message
 from pyrogram.errors import FloodWait
 
 from pyrogram.handlers import MessageHandler
@@ -21,7 +20,7 @@ async def broadcast_messages(chat_id, message):
         return await broadcast(chat_id, message)
 
 async def broadcast(client, message):
-    a = sendMessage(f"Broadcasting Your Message", message)
+    a = sendMessage(client, message, f"Broadcasting Your Message")
     mess = message.text.split()
     
     if not config_dict['DATABASE_URL']:
@@ -37,7 +36,7 @@ async def broadcast(client, message):
         success = 0
 
         for chat_id in chat_ids:
-            await broadcast(chat_id, mess[1])
+            await broadcast_messages(chat_id, mess[1])
             success += 1
         msg = f"Broadcasting Completed\n"
         msg += f"Total {users_count} users in Database\n"
