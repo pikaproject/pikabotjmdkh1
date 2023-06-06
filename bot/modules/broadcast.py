@@ -10,8 +10,12 @@ from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import sendMessage, editMessage
 
-        
-async def broadcast_psn(bot, message):
+
+async def broadcast(bot, message):
+    mess = message.text.split(maxsplit=1)
+    if not config_dict['DATABASE_URL']:
+        await sendMessage(f"DATABASE_URL not provided", message)
+    else:
         conn = MongoClient(config_dict['DATABASE_URL'])
         db = conn['mltb']
         users_collection = db['users.5692262279']
@@ -22,26 +26,15 @@ async def broadcast_psn(bot, message):
         success = 0
         for chat_id in chat_ids:
             try:
-               await message.copy(chat_id=chat_id)
-               #from_chat_id=message.chat.id, message_id=message.id)
+                await bot.send_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id, text= mess)
             except Exception as e:
                LOGGER.error(e)
+        continue
         success += 1
         msg = f"Broadcasting Completed\n"
         msg += f"Total {users_count} users in Database\n"
         msg += f"Sucess: {success} users\n"
         msg += f"Failed: {users_count - success} users"
         await sendMessage(msg, message)
-        #else:
-        #   await editMessage(f"No message provided for broadcast", bot, a)
-async def broadcast(chat_id, message):
-    mess = message.text.split(maxsplit=1)
-    if not config_dict['DATABASE_URL']:
-        await sendMessage(f"DATABASE_URL not provided", message)
-    else:
-        await broadcast_psn(chat_id, mess)
-        await sendMessage(f"Broadcasting Your Message", bot, message)
-#if len(mess) > 1:
-#           a = await sendMessage(f"Broadcasting Your Message", bot, message)
-#          return
+        
 bot.add_handler(MessageHandler(broadcast, filters=command(BotCommands.Broadcast) & CustomFilters.sudo))
