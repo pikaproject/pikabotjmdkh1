@@ -10,14 +10,8 @@ from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import sendMessage, editMessage
 
-async def broadcast(client, message):
+async def broadcast(bot, message):
     mess = message.text.split(maxsplit=1)
-    if len(mess) > 1:
-        sendMessage(client, message, f"Broadcasting Your Message")
-        broadcast_message = mess[1]
-    else:
-        sendMessage(client, message, f"No message provided for broadcast")
-        return
     if not config_dict['DATABASE_URL']:
         await sendMessage(f"DATABASE_URL not provided", message)
     else:
@@ -29,18 +23,22 @@ async def broadcast(client, message):
         chat_ids = [str(user["_id"]) for user in users_collection.find({}, {"_id": 1})]
         auth = [str(user["is_auth"]) for user in users_collection.find({}, {"is_auth": 1})]
         success = 0
-
+        if len(mess) > 1:
+           a = await sendMessage(f"Broadcasting Your Message", bot, message)
+           return
         for chat_id in chat_ids:
             try:
-               return await client.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
+               return await bot.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
             except Exception as e:
                LOGGER.error(e)
             success += 1
-        msg = f"Broadcasting Completed\n"
-        msg += f"Total {users_count} users in Database\n"
-        msg += f"Sucess: {success} users\n"
-        msg += f"Failed: {users_count - success} users"
-        await sendMessage(msg, message)
+            msg = f"Broadcasting Completed\n"
+            msg += f"Total {users_count} users in Database\n"
+            msg += f"Sucess: {success} users\n"
+            msg += f"Failed: {users_count - success} users"
+            await editMessage(msg, a)
+        else:
+           await editMessage(f"No message provided for broadcast", bot, a)
 
 
 bot.add_handler(MessageHandler(broadcast, filters=command(BotCommands.Broadcast) & CustomFilters.sudo))
