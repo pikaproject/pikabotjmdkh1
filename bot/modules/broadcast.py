@@ -10,19 +10,10 @@ from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import sendMessage, editMessage
 
-async def broadcast_messages(chat_id, message):
-    try:
-        return await message.copy(chat_id=chat_id)
-    except Exception as e:
-        LOGGER.error(e)
-    except FloodWait as e:
-        await asyncio.sleep(e.x)
-        return await broadcast(chat_id, message)
-
 async def broadcast(client, message):
-    a = sendMessage(client, message, f"Broadcasting Your Message")
     mess = message.text.split()
-    
+    if len(mess) > 1:
+      a = sendMessage(client, message, f"Broadcasting Your Message")
     if not config_dict['DATABASE_URL']:
         await sendMessage(f"DATABASE_URL not provided", message)
     else:
@@ -36,7 +27,10 @@ async def broadcast(client, message):
         success = 0
 
         for chat_id in chat_ids:
-            await broadcast_messages(chat_id, mess[1])
+            try:
+               return await client.copy_message(chat_id=chat_id, from_chat_id=message.from_chat.id, message_id=message.id)
+            except Exception as e:
+               LOGGER.error(e)
             success += 1
         msg = f"Broadcasting Completed\n"
         msg += f"Total {users_count} users in Database\n"
