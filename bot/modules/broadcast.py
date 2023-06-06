@@ -26,7 +26,7 @@ async def broadcast(bot, message):
         success = 0
         for chat_id in chat_ids:
             try:
-               await bot.copy(chat_id=chat_id) #from_chat_id=message.chat.id, message_id=message.id)
+               await message.copy(chat_id=chat_id) #from_chat_id=message.chat.id, message_id=message.id)
             except Exception as e:
                LOGGER.error(e)
         success += 1
@@ -34,7 +34,7 @@ async def broadcast(bot, message):
         msg += f"Total {users_count} users in Database\n"
         msg += f"Sucess: {success} users\n"
         msg += f"Failed: {users_count - success} users"
-        await editMessage(msg, a)
+        await sendMessage(msg, bot, message)
         #else:
         #   await editMessage(f"No message provided for broadcast", bot, a)
 
