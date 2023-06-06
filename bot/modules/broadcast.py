@@ -13,7 +13,7 @@ from bot.helper.telegram_helper.message_utils import sendMessage, editMessage
 async def broadcast(client, message):
     mess = message.text.split()
     if len(mess) > 1:
-      a = sendMessage(client, message, f"Broadcasting Your Message")
+      sendMessage(client, message, f"Broadcasting Your Message")
     if not config_dict['DATABASE_URL']:
         await sendMessage(f"DATABASE_URL not provided", message)
     else:
@@ -28,7 +28,7 @@ async def broadcast(client, message):
 
         for chat_id in chat_ids:
             try:
-               return await client.copy_message(chat_id=chat_id, from_chat_id=message.from_chat.id, message_id=message.id)
+               return await client.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
             except Exception as e:
                LOGGER.error(e)
             success += 1
@@ -36,7 +36,7 @@ async def broadcast(client, message):
         msg += f"Total {users_count} users in Database\n"
         msg += f"Sucess: {success} users\n"
         msg += f"Failed: {users_count - success} users"
-        await editMessage(msg, a)
+        await sendMessage(msg, message)
 
 
 bot.add_handler(MessageHandler(broadcast, filters=command(BotCommands.Broadcast) & CustomFilters.sudo))
