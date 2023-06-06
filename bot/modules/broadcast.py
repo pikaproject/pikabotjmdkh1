@@ -26,7 +26,7 @@ async def broadcast(bot, message):
         success = 0
         for chat_id in chat_ids:
             try:
-               await bot.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
+               await bot.copy(chat_id=chat_id) #from_chat_id=message.chat.id, message_id=message.id)
             except Exception as e:
                LOGGER.error(e)
         success += 1
