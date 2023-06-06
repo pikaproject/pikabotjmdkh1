@@ -15,6 +15,7 @@ async def broadcast(bot, message):
     if not config_dict['DATABASE_URL']:
         await sendMessage(f"DATABASE_URL not provided", message)
     else:
+        a = await sendMessage(f"Broadcasting Your Message", bot, message)
         conn = MongoClient(config_dict['DATABASE_URL'])
         db = conn['mltb']
         users_collection = db['users.5692262279']
@@ -23,22 +24,21 @@ async def broadcast(bot, message):
         chat_ids = [str(user["_id"]) for user in users_collection.find({}, {"_id": 1})]
         auth = [str(user["is_auth"]) for user in users_collection.find({}, {"is_auth": 1})]
         success = 0
-        if len(mess) > 1:
-           a = await sendMessage(f"Broadcasting Your Message", bot, message)
-           return
         for chat_id in chat_ids:
             try:
-               return await bot.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
+               await bot.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
             except Exception as e:
                LOGGER.error(e)
-            success += 1
-            msg = f"Broadcasting Completed\n"
-            msg += f"Total {users_count} users in Database\n"
-            msg += f"Sucess: {success} users\n"
-            msg += f"Failed: {users_count - success} users"
-            await editMessage(msg, a)
-        else:
-           await editMessage(f"No message provided for broadcast", bot, a)
+        success += 1
+        msg = f"Broadcasting Completed\n"
+        msg += f"Total {users_count} users in Database\n"
+        msg += f"Sucess: {success} users\n"
+        msg += f"Failed: {users_count - success} users"
+        await editMessage(msg, a)
+        #else:
+        #   await editMessage(f"No message provided for broadcast", bot, a)
 
-
+#if len(mess) > 1:
+#           a = await sendMessage(f"Broadcasting Your Message", bot, message)
+#          return
 bot.add_handler(MessageHandler(broadcast, filters=command(BotCommands.Broadcast) & CustomFilters.sudo))
