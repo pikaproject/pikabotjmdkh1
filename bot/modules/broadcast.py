@@ -10,15 +10,8 @@ from bot.helper.telegram_helper.bot_commands import BotCommands
 from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import sendMessage, editMessage
 
-async def broadcast_mess(bot, message):
-    mess = message.text.split(maxsplit=1)
-    if not config_dict['DATABASE_URL']:
-        await sendMessage(f"DATABASE_URL not provided", message)
-    else:
-        await broadcast_psn(chat_id, mess)
-        a = await sendMessage(f"Broadcasting Your Message", bot, message)
         
-async def broadcast_psn(chat_id, message):
+async def broadcast_psn(bot, message):
         conn = MongoClient(config_dict['DATABASE_URL'])
         db = conn['mltb']
         users_collection = db['users.5692262279']
@@ -41,7 +34,13 @@ async def broadcast_psn(chat_id, message):
         await sendMessage(msg, message)
         #else:
         #   await editMessage(f"No message provided for broadcast", bot, a)
-
+async def broadcast(chat_id, message):
+    mess = message.text.split(maxsplit=1)
+    if not config_dict['DATABASE_URL']:
+        await sendMessage(f"DATABASE_URL not provided", message)
+    else:
+        await broadcast_psn(chat_id, mess)
+        await sendMessage(f"Broadcasting Your Message", bot, message)
 #if len(mess) > 1:
 #           a = await sendMessage(f"Broadcasting Your Message", bot, message)
 #          return
