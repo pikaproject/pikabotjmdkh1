@@ -11,9 +11,13 @@ from bot.helper.telegram_helper.filters import CustomFilters
 from bot.helper.telegram_helper.message_utils import sendMessage, editMessage
 
 async def broadcast(client, message):
-    mess = message.text.split()
+    mess = message.text.split(maxsplit=1)
     if len(mess) > 1:
-      sendMessage(client, message, f"Broadcasting Your Message")
+        sendMessage(client, message, f"Broadcasting Your Message")
+        broadcast_message = mess[1]
+    else:
+        sendMessage(client, message, f"No message provided for broadcast")
+        return
     if not config_dict['DATABASE_URL']:
         await sendMessage(f"DATABASE_URL not provided", message)
     else:
