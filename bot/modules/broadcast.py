@@ -13,9 +13,11 @@ from bot.helper.telegram_helper.message_utils import sendMessage, editMessage
 
 async def broadcast(bot, message):
     mess = message.text
-    if len (mess) > 1 :
+    #if (reply_to := message.reply_to_message) and len(mess) == 0:
+    elif len(mess) > 1 :
         mess = mess.split(maxsplit=1)[1]
         success = 0
+        totals = len(user_data)
         for chat_id in user_data:
             reply_to=message.reply_to_message
             try:
@@ -25,10 +27,10 @@ async def broadcast(bot, message):
                continue
         success += 1
         msg = f"Broadcasting Completed\n"
-        msg += f"Total {users_count} users in Database\n"
+        msg += f"Total {totals} users in Database\n"
         msg += f"Sucess: {success} users\n"
-        msg += f"Failed: {users_count - success} users"
+        msg += f"Failed: {totals - success} users"
         await message.reply(msg, message)
     else:
-        await message.reply("Silahkan Masukkan Pesann yang akan di Broadcast", bot, message)
+        await sendMessage("Silahkan Masukkan Pesann yang akan di Broadcast", message)
 bot.add_handler(MessageHandler(broadcast, filters=command(BotCommands.Broadcast) & CustomFilters.sudo))
