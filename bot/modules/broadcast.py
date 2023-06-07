@@ -25,8 +25,9 @@ async def broadcast(bot, message):
         auth = [str(user["is_auth"]) for user in users_collection.find({}, {"is_auth": 1})]
         success = 0
         for chat_id in chat_ids:
+            reply_to=message.reply_to_message
             try:
-                await bot.send_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id, text= mess)
+                await bot.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=reply_to.id)
             except Exception as e:
                LOGGER.error(e)
                continue
