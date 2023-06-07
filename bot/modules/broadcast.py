@@ -12,9 +12,12 @@ from bot.helper.telegram_helper.message_utils import sendMessage, editMessage
 
 
 async def broadcast(bot, message):
-    mess = message.command
+    mess = message.text
+    reply_to = message.reply_to_message
     if not config_dict['DATABASE_URL']:
         await sendMessage(f"DATABASE_URL not provided", message)
+    elif reply_to is None and len(mess) = 0:
+        await message.reply("Silahkan Masukkan Pesann yang akan di Broadcast", message)
     else:
         conn = MongoClient(config_dict['DATABASE_URL'])
         db = conn['mltb']
