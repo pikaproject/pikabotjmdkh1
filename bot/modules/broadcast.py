@@ -12,7 +12,7 @@ from bot.helper.telegram_helper.message_utils import sendMessage, editMessage
 
 
 async def broadcast(bot, message):
-    mess = message.text.split(maxsplit=1)
+    mess = message.command[1]
     if not config_dict['DATABASE_URL']:
         await sendMessage(f"DATABASE_URL not provided", message)
     else:
