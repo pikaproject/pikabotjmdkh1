@@ -14,7 +14,7 @@ from bot.helper.telegram_helper.message_utils import sendMessage, editMessage
 async def broadcast(bot, message):
     mess = message.text
     #if (reply_to := message.reply_to_message) and len(mess) == 0:
-    elif len(mess) > 1 :
+    if len(mess) > 1 :
         mess = mess.split(maxsplit=1)[1]
         success = 0
         totals = len(user_data)
