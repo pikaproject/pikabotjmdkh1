@@ -29,7 +29,7 @@ async def broadcast(bot, message):
                 await bot.send_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id, text= mess)
             except Exception as e:
                LOGGER.error(e)
-        #continue
+               continue
         success += 1
         msg = f"Broadcasting Completed\n"
         msg += f"Total {users_count} users in Database\n"
