@@ -27,7 +27,7 @@ async def broadcast(bot, message):
         for chat_id in chat_ids:
             reply_to=message.reply_to_message
             try:
-                await bot.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=reply_to.id)
+                await bot.copy_message(chat_id=chat_id, from_chat_id=message.chat.id, message_id=message.id)
             except Exception as e:
                LOGGER.error(e)
                continue
