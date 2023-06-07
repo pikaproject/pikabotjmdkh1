@@ -16,7 +16,7 @@ async def broadcast(bot, message):
     reply_to = message.reply_to_message
     if not config_dict['DATABASE_URL']:
         await sendMessage(f"DATABASE_URL not provided", message)
-    elif reply_to is None and len(mess) = 0:
+    elif reply_to and len(mess) is not None:
         await message.reply("Silahkan Masukkan Pesann yang akan di Broadcast", message)
     else:
         conn = MongoClient(config_dict['DATABASE_URL'])
