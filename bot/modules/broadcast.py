@@ -53,7 +53,7 @@ async def copy_bcp(bot, message):
                 reply_markup = message.reply_to_message.reply_markup,
             )
           return await message.reply_text("Pesan berhasil dikirim..")
-      except Exception as e:
+       except Exception as e:
           return await message.reply(f"ERROR: {e}")
     else:
         await message.reply("Silahkan balas pesan yang mau dicopy.")
