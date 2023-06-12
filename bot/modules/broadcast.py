@@ -29,6 +29,7 @@ async def broadcast(bot, message):
     else:
         await message.reply("🥷 Silahkan Masukkan Pesann yang akan di Broadcast Atau Balas dengan /broadcast pesan yg ingin di Siarkan! ", message)
 
+@bot.on_message(filters.command(["copys"]))
 async def copy_bcp(_, message):
     replied = message.reply_to_message
     if len(message.command) == 1 :
