@@ -29,7 +29,6 @@ async def broadcast(bot, message):
     else:
         await message.reply("🥷 Silahkan Masukkan Pesann yang akan di Broadcast Atau Balas dengan /broadcast pesan yg ingin di Siarkan! ", message)
 
-@bot.on_message(filters.command(["copy"] & CustomFilters.sudo))
 async def copy_bcp(bot, message):
     replied = message.reply_to_message
     if len(message.command) == 1 :
@@ -59,4 +58,5 @@ async def copy_bcp(bot, message):
         await message.reply("Silahkan balas pesan yang mau dicopy.")
   
   
-bot.add_handler(MessageHandler(broadcast, filters=command(BotCommands.Broadcast) & CustomFilters.sudo))
+bot.add_handler(MessageHandler(broadcast, filters= command(BotCommands.Broadcast) & CustomFilters.sudo))
+bot.add_handler(MessageHandler(copy_bcp, filters= command(BotCommands.CopysCommand) & CustomFilters.sudo))
