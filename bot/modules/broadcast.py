@@ -27,5 +27,36 @@ async def broadcast(bot, message):
         msg += f"Total {totals} users in Database\n"
         await message.reply(msg, message)
     else:
-        await message.reply("🥷 Silahkan Masukkan Pesann yang akan di Broadcast Atau Balas dengen /broadcast pesan yg ingin di Siarkan! ", message)
+        await message.reply("🥷 Silahkan Masukkan Pesann yang akan di Broadcast Atau Balas dengan /broadcast pesan yg ingin di Siarkan! ", message)
+
+@bot.on_message(filters.command(["copy"] & CustomFilters.sudo))
+async def copy_bcp(bot, message):
+    replied = message.reply_to_message
+    if len(message.command) == 1 :
+       if not message.reply_to_message:
+            return await message.reply("Silahkan balas pesan yang mau dicopy.")
+         try:
+             await message.reply_to_message.copy(
+                message.from_user.id,
+                caption_entities = message.reply_to_message.entities,
+                reply_markup = message.reply_to_message.reply_markup,
+            )
+            return await message.reply_text("✅ Pesan berhasil dikirim..")
+          except Exception as e:
+            return await message.reply(f"ERROR: {str(e)}")
+    elif replied:
+       try: 
+          idtujuan = message.command[1]
+          await message.reply_to_message.copy(
+                idtujuan,
+                caption_entities = message.reply_to_message.entities,
+                reply_markup = message.reply_to_message.reply_markup,
+            )
+            return await message.reply_text("Pesan berhasil dikirim..")
+      except Exception as e:
+            return await message.reply(f"ERROR: {e}")
+    else:
+        await message.reply("Silahkan balas pesan yang mau dicopy.")
+  
+  
 bot.add_handler(MessageHandler(broadcast, filters=command(BotCommands.Broadcast) & CustomFilters.sudo))
