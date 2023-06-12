@@ -56,7 +56,7 @@ class _BotCommands:
         self.CategorySelect = f'catsel1{CMD_SUFFIX}'
         self.RmdbCommand = f'rmdb1{CMD_SUFFIX}'
         self.Broadcast = f'broadcast{CMD_SUFFIX}'
-        self.CopyCommand = f'copys{CMD_SUFFIX}'
+        self.CopysCommand = f'copys{CMD_SUFFIX}'
 
 
 BotCommands = _BotCommands()
