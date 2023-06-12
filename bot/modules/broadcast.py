@@ -34,16 +34,16 @@ async def copy_bcp(bot, message):
     replied = message.reply_to_message
     if len(message.command) == 1 :
        if not message.reply_to_message:
-            return await message.reply("Silahkan balas pesan yang mau dicopy.")
-         try:
-             await message.reply_to_message.copy(
+          return await message.reply("Silahkan balas pesan yang mau dicopy.")
+          try:
+              await message.reply_to_message.copy(
                 message.from_user.id,
                 caption_entities = message.reply_to_message.entities,
                 reply_markup = message.reply_to_message.reply_markup,
             )
-            return await message.reply_text("✅ Pesan berhasil dikirim..")
+             return await message.reply_text("✅ Pesan berhasil dikirim..")
           except Exception as e:
-            return await message.reply(f"ERROR: {str(e)}")
+             return await message.reply(f"ERROR: {str(e)}")
     elif replied:
        try: 
           idtujuan = message.command[1]
