@@ -33,14 +33,14 @@ async def copy_bcp(bot, message):
     replied = message.reply_to_message
     if len(message.command) == 1 :
        if not message.reply_to_message:
-          return await message.reply("Silahkan balas pesan yang mau dicopy.")
+          return await message.reply("Silahkan balas pesan yang mau dicopy.", message)
           try:
               await message.reply_to_message.copy(
                 message.from_user.id,
                 caption_entities = message.reply_to_message.entities,
                 reply_markup = message.reply_to_message.reply_markup,
             )
-              return await message.reply_text("✅ Pesan berhasil dikirim..")
+              return await message.reply_text("✅ Pesan berhasil dikirim..", message)
           except Exception as e:
               return await message.reply(f"ERROR: {str(e)}")
     elif replied:
@@ -51,11 +51,11 @@ async def copy_bcp(bot, message):
                 caption_entities = message.reply_to_message.entities,
                 reply_markup = message.reply_to_message.reply_markup,
             )
-          return await message.reply_text("Pesan berhasil dikirim..")
+          return await message.reply_text("Pesan berhasil dikirim..", message)
        except Exception as e:
-          return await message.reply(f"ERROR: {e}")
+          return await message.reply(f"ERROR: {e}", message)
     else:
-        await message.reply("Silahkan balas pesan yang mau dicopy.")
+        await message.reply("Silahkan balas pesan yang mau dicopy.", message)
   
   
 bot.add_handler(MessageHandler(broadcast, filters= command(BotCommands.Broadcast) & CustomFilters.sudo))
