@@ -13,15 +13,15 @@ from bot.helper.telegram_helper.message_utils import sendMessage, editMessage
 
 async def broadcast(bot, message):
     mess = message.text
-    #if (reply_to := message.reply_to_message) and len(mess) == 0:
-    if len(mess) == 1 :
+    replied = message.reply_to_message
+    if (replied == 0 ) and len(mess) == 1 :
         mess = mess.split(maxsplit=1)[1]
         success = 0
         totals = len(user_data)
         for chat_id in user_data:
             reply_to=message.reply_to_message
             try:
-                await bot.send_message(chat_id=chat_id, text= mess) #from_chat_id=message.chat.id, message_id=message.id)
+                await bot.send_message(chat_id=chat_id, text= mess)
             except Exception as e:
                LOGGER.error(e)
                continue
@@ -30,5 +30,5 @@ async def broadcast(bot, message):
         msg += f"Total {totals} users in Database\n"
         await message.reply(msg, message)
     else:
-        await message.reply("Silahkan Masukkan Pesann yang akan di Broadcast", message)
+        await message.reply("🥷 Silahkan Masukkan Pesann yang akan di Broadcast Atau Balas dengen /broadcast pesan yg ingin di Siarkan! ", message)
 bot.add_handler(MessageHandler(broadcast, filters=command(BotCommands.Broadcast) & CustomFilters.sudo))
