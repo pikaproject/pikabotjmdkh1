@@ -14,7 +14,7 @@ from bot.helper.telegram_helper.message_utils import sendMessage, editMessage
 async def broadcast(bot, message):
     mess = message.text
     replied = message.reply_to_message
-    if len(mess) == 1 and replied is None :
+    if len(mess) > 1 :
         mess = mess.split(maxsplit=1)[1]
         totals = len(user_data)
         for chat_id in user_data:
@@ -29,7 +29,7 @@ async def broadcast(bot, message):
     else:
         await message.reply("🥷 Silahkan Masukkan Pesann yang akan di Broadcast Atau Balas dengan /broadcast pesan yg ingin di Siarkan! ", message)
 
-async def copy_bcp(bot, message):
+async def copy_bcp(_, message):
     replied = message.reply_to_message
     if len(message.command) == 1 :
        if not message.reply_to_message:
